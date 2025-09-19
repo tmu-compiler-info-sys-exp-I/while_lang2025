@@ -1,0 +1,3 @@
+[submodule "win64ocaml"]
+	path = win64ocaml
+	url = git@github.com:tmu-compiler-info-sys-exp-I/win64ocaml.git

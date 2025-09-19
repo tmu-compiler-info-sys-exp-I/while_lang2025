@@ -11,7 +11,7 @@ RESULT = while_lang
 
 all: bc # test
 
-compile-day2:
+day2:
 	ocamllex lexer.mll
 	ocamlyacc parser.mly
 	ocamlc syntax.ml parser.mli parser.ml lexer.ml virtual_stack.ml test_day2.ml -o test_day2
