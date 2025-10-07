@@ -32,12 +32,7 @@ let rec compile_arith (arith : a) : t list =
   | Num n -> [Push n]
   | Add (lhs, rhs) ->
     (compile_arith lhs) @ (compile_arith rhs) @ [PLUS]
-  | Sub (lhs, rhs) ->
-    (compile_arith lhs) @ (compile_arith rhs) @ [MINUS]
-  | Div (lhs, rhs) ->
-    (compile_arith lhs) @ (compile_arith rhs) @ [DIV]
-  | Mul (lhs, rhs) ->
-    (compile_arith lhs) @ (compile_arith rhs) @ [TIMES]
+(* 課題4 Sub, Mul, Div の実装 *)
 
 (* While言語の条件式を仮想スタックマシンの命令へ変換する *)
 let rec compile_predicate (predicate : p) : t list =
@@ -47,11 +42,8 @@ let rec compile_predicate (predicate : p) : t list =
   | Not (p) -> (compile_predicate p) @ [NOT]
   | And (p1, p2) -> (compile_predicate p1) @ (compile_predicate p2) @ [AND]
   | Or (p1, p2) -> (compile_predicate p1) @ (compile_predicate p2) @ [OR]
-  | EQ (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [OR]
   | LT (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [LT]
-  | LE (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [LE]
-  | GT (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [GT]
-  | GE (a1, a2) -> (compile_arith a1) @ (compile_arith a2) @ [GE]
+(* 課題4 EQ, LE, GT, GE の場合を LT の場合を参考に実装する *)
 
 let count = ref (-1)
 let gen_label () =
@@ -69,16 +61,18 @@ let rec compile_statement (statement : s) : t list =
   | Skip -> []
   | Block (stmt) ->
     compile_statement stmt
+(*
   | Seq (stmt1, stmt2) ->
-    (compile_statement stmt1) @ (compile_statement stmt2)
+     (* ... *)
+*)
+(*
   | While (pred, stmt) ->
     let test = gen_label () in
     let out = gen_label () in
-    [LabelTest (test, out)] @ (compile_predicate pred) @
-    [GoFalse (out)] @ (compile_statement stmt) @ [GoTo (test)] @
-    [LabelOut (test, out)]
+    (* ... *)
+*)
   | Print (arith) ->
-    (compile_arith arith) @ [PRINT]
+     (compile_arith arith) @ [PRINT]
   | _ -> failwith "Unsupported statement"
 
 

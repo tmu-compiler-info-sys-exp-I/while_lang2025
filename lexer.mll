@@ -13,15 +13,15 @@ let letter = lower | upper
 rule token = parse
 | space+ { token lexbuf }
 | '+'  { PLUS }
-| '-'  { MINUS }
+(* | '-'  { ... } *)
 | '*'  { TIMES }
 | '/'  { DIVIDE }
 | digit+  { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }
-| "<"  { LT }
-| "<=" { LE }
-| ">"  { GT }
-| ">=" { GE }
-| "==" { EQ }
+(* | "<"  { ... } *)
+(* | "<=" { ... } *)
+(* | ">"  { ... } *)
+(* | ">=" { ... } *)
+(* | "==" { ... } *)
 | ":=" { ASSIGN }
 | ';'  { SEMICOLON }
 | "begin" { BEGIN }
@@ -34,9 +34,6 @@ rule token = parse
 | "and"   { AND }
 | "or"    { OR }
 | "skip"  { SKIP }
-| "if"    { IF }
-| "then"  { THEN }
-| "else"  { ELSE }
 | "print" { PRINT }
 | eof     { EOF }
 | letter+ { VARIANT (Lexing.lexeme lexbuf) }
