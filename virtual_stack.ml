@@ -59,8 +59,10 @@ let rec compile_statement (statement : s) : t list =
   | Assign (id, arith) ->
     (compile_arith arith) @ [LPush (id)]
   | Skip -> []
+(*
   | Block (stmt) ->
-    compile_statement stmt
+    ...
+*)
 (*
   | Seq (stmt1, stmt2) ->
      (* ... *)
