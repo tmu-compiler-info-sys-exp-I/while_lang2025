@@ -39,3 +39,5 @@ test_day2
 lexer.ml
 parser.ml
 parser.mli
+
+*.wat
