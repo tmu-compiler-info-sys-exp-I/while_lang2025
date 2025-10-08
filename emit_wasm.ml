@@ -4,7 +4,7 @@ open Virtual_stack
 
 exception Error of string
 
-exception NotImplemented of string
+exception NotImplementedError of string
 
 let indent = ref 2
 
@@ -41,14 +41,14 @@ let emit_instr (oc : out_channel) (ctrl : cframe list ref) (pending_store: strin
   | FALSE       -> emit_code oc "i32.const 0\n"
   | NOT         -> emit_code oc "i32.eqz\n"
   | PLUS        -> emit_code oc "i32.add\n"
-  | MINUS       -> raise NotImplemented("引き算 (i32.sub) を実装してください")
-  | TIMES       -> raise NotImplemented("かけ算 (i32.mul) を実装してください")
+  | MINUS       -> raise (NotImplementedError("引き算 (i32.sub) を実装してください"))
+  | TIMES       -> raise (NotImplementedError("かけ算 (i32.mul) を実装してください"))
   | DIV         -> emit_code oc "i32.div_s\n"
-  | EQ          -> raise NotImplemented("== (i32.eq) を実装してください")
+  | EQ          -> raise (NotImplementedError("== (i32.eq) を実装してください"))
   | LT          -> emit_code oc "i32.lt_s\n"
-  | LE          -> raise NotImplemented("<= (i32.le_s) を実装してください")
-  | GT          -> raise NotImplemented(">  (i32.gt_s) を実装してください")
-  | GE          -> raise NotImplemented(">= (i32.ge_s) を実装してください")
+  | LE          -> raise (NotImplementedError("<= (i32.le_s) を実装してください"))
+  | GT          -> raise (NotImplementedError(">  (i32.gt_s) を実装してください"))
+  | GE          -> raise (NotImplementedError(">= (i32.ge_s) を実装してください"))
   | AND         -> emit_code oc "i32.and\n"
   | OR          -> emit_code oc "i32.and\n"
   | RValue x    -> emit_code oc "global.get $%s\n" x
