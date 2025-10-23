@@ -69,9 +69,15 @@ let rec compile_statement (statement : s) : t list =
 *)
 (*
   | While (pred, stmt) ->
-    let test = gen_label () in
-    let out = gen_label () in
-    (* ... *)
+    let l = gen_label () in
+    let l2 = gen_label () in
+    let label_test = LabelTest(l, l2) in
+    let label_out = LabelOut(l, l2) in
+    let p = compile_predicate pred in
+    let s = compile_statement stmt in
+    let goto = GoTo (l) in
+    let gogalse = GoFalse (l2) in
+    (* label_test, label_out, p, s, goto, gofalse をどう配置する？ *)
 *)
   | Print (arith) ->
      (compile_arith arith) @ [PRINT]
