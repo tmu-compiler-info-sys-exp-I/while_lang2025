@@ -2,7 +2,7 @@
 SOURCES = syntax.ml parser.mly lexer.mll virtual_stack.ml \
 	emit_wasm.ml main.ml
 
-SOURCES_DAY2 = syntax.ml parser.mly lexer.mll main.ml
+SOURCES_DAY2 = syntax.ml parser.mli parser.ml lexer.ml virtual_stack.ml test_day2.ml
 
 # テストを追加したらテストの名前 (拡張子をは取る) を TESTS に足す
 TESTS = assign loop
@@ -14,7 +14,7 @@ all: bc # test
 day2:
 	ocamllex lexer.mll
 	ocamlyacc parser.mly
-	ocamlc syntax.ml parser.mli parser.ml lexer.ml virtual_stack.ml test_day2.ml -o test_day2
+	ocamlc $(SOURCES_DAY2) -o test_day2
 	./test_day2
 
 test: bc $(TESTS:%=test/%.res)
