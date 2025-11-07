@@ -14,7 +14,8 @@ let test_syntax s msg =
   with e ->
       print_string "[error] ";
       print_endline msg;
-      print_newline ()
+      print_newline ();
+      raise e
 
 
 (* 課題1,2,3 *)
@@ -31,7 +32,8 @@ let test_syntax_predicate p msg =
   with e ->
       print_string "[error] ";
       print_endline msg;
-      print_newline ()
+      print_newline ();
+      raise e
 
 (* 課題4 *)
 (* 入力文字列が仮想スタック機械命令列に変換できるか確かめる*)
@@ -48,7 +50,8 @@ let test_stack_ops s msg =
   with e ->
       print_string "[error] ";
       print_endline msg;
-      print_newline ()
+      print_newline ();
+      raise e
 
 let () =
     print_endline "[TEST] syntax";
