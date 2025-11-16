@@ -12,7 +12,7 @@ let test_syntax s msg =
   with e ->
     Printf.printf "\n%s[ERROR]%s %s\n"
       Visualizer.color_red Visualizer.color_reset
-      (Printexc.to_string e);
+      msg;
       raise e
 
 
@@ -27,8 +27,7 @@ let test_syntax_predicate p msg =
   with e ->
     Printf.printf "\n%s[ERROR]%s %s\n"
       Visualizer.color_red Visualizer.color_reset
-      (Printexc.to_string e);
-    raise e
+      msg; raise e
 
 (* 課題4 *)
 (* 入力文字列が仮想スタック機械命令列に変換できるか確かめる*)
@@ -42,8 +41,7 @@ let test_stack_ops s msg =
   with e ->
     Printf.printf "\n%s[ERROR]%s %s\n"
         Visualizer.color_red Visualizer.color_reset
-        (Printexc.to_string e);
-      raise e
+        msg; raise e
 
 let () =
     print_endline "[TEST] syntax";

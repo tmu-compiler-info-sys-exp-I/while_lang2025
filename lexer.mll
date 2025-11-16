@@ -37,4 +37,10 @@ rule token = parse
 | "print" { PRINT }
 | eof     { EOF }
 | letter+ { VARIANT (Lexing.lexeme lexbuf) }
-| _       { failwith ("unknown token: " ^ Lexing.lexeme lexbuf) }
+| _       {
+    let pos = lexbuf.Lexing.lex_curr_p in
+    failwith (Printf.sprintf "Lexical error: unknown token '%s' at line %d, column %d.\nValid tokens include: keywords (while, do, if, then, else, skip, print, begin, end, true, false, not, and, or), operators (+, *, /, :=, ;), numbers, and identifiers."
+      (Lexing.lexeme lexbuf)
+      pos.Lexing.pos_lnum
+      (pos.Lexing.pos_cnum - pos.Lexing.pos_bol + 1))
+  }

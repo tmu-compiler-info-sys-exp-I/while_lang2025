@@ -43,7 +43,7 @@ start:
 | statements EOF { $1 }
 | error
     { failwith
-        (Printf.sprintf "parse error near characters %d-%d"
+        (Printf.sprintf "Syntax error: unexpected input at characters %d-%d.\nPlease check your While language syntax (statements should end with ';', expressions should use proper keywords like 'while', 'do', 'if', 'then', 'else', 'skip', 'print', etc.)"
            (Parsing.symbol_start ())
            (Parsing.symbol_end ())) }
 

@@ -81,7 +81,9 @@ let rec compile_statement (statement : s) : t list =
 *)
   | Print (arith) ->
      (compile_arith arith) @ [PRINT]
-  | _ -> failwith "Unsupported statement"
+  | _ ->
+     failwith (Printf.sprintf "Compilation error: unsupported statement type '%s'.\nCurrently supported statements are: Assign (x := expr), Skip, and Print (print expr).\nStatements like Block (begin...end), Seq (sequential statements), and While loops are not yet implemented. Please check syntax.ml for implementation status."
+       (Syntax.string_of_statement statement))
 
 
 let compile_stack statement =

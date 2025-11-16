@@ -41,14 +41,14 @@ let emit_instr (oc : out_channel) (ctrl : cframe list ref) (pending_store: strin
   | FALSE       -> emit_code oc "i32.const 0\n"
   | NOT         -> emit_code oc "i32.eqz\n"
   | PLUS        -> emit_code oc "i32.add\n"
-  | MINUS       -> raise (NotImplementedError("引き算 (i32.sub) を実装してください"))
-  | TIMES       -> raise (NotImplementedError("かけ算 (i32.mul) を実装してください"))
+  | MINUS       -> raise (NotImplementedError("WASM code generation error: subtraction operator (MINUS) not implemented.\nTo fix: add 'emit_code oc \"i32.sub\\n\"' for the MINUS case in emit_instr function (emit_wasm.ml).\nAlso ensure MINUS is handled in virtual_stack.ml's compile_arith function."))
+  | TIMES       -> raise (NotImplementedError("WASM code generation error: multiplication operator (TIMES) not implemented.\nTo fix: add 'emit_code oc \"i32.mul\\n\"' for the TIMES case in emit_instr function (emit_wasm.ml).\nAlso ensure TIMES is handled in virtual_stack.ml's compile_arith function."))
   | DIV         -> emit_code oc "i32.div_s\n"
-  | EQ          -> raise (NotImplementedError("== (i32.eq) を実装してください"))
+  | EQ          -> raise (NotImplementedError("WASM code generation error: equality operator (EQ) not implemented.\nTo fix: add 'emit_code oc \"i32.eq\\n\"' for the EQ case in emit_instr function (emit_wasm.ml).\nAlso ensure EQ is handled in virtual_stack.ml's compile_predicate function."))
   | LT          -> emit_code oc "i32.lt_s\n"
-  | LE          -> raise (NotImplementedError("<= (i32.le_s) を実装してください"))
-  | GT          -> raise (NotImplementedError(">  (i32.gt_s) を実装してください"))
-  | GE          -> raise (NotImplementedError(">= (i32.ge_s) を実装してください"))
+  | LE          -> raise (NotImplementedError("WASM code generation error: less-than-or-equal operator (LE) not implemented.\nTo fix: add 'emit_code oc \"i32.le_s\\n\"' for the LE case in emit_instr function (emit_wasm.ml).\nAlso ensure LE is handled in virtual_stack.ml's compile_predicate function."))
+  | GT          -> raise (NotImplementedError("WASM code generation error: greater-than operator (GT) not implemented.\nTo fix: add 'emit_code oc \"i32.gt_s\\n\"' for the GT case in emit_instr function (emit_wasm.ml).\nAlso ensure GT is handled in virtual_stack.ml's compile_predicate function."))
+  | GE          -> raise (NotImplementedError("WASM code generation error: greater-than-or-equal operator (GE) not implemented.\nTo fix: add 'emit_code oc \"i32.ge_s\\n\"' for the GE case in emit_instr function (emit_wasm.ml).\nAlso ensure GE is handled in virtual_stack.ml's compile_predicate function."))
   | AND         -> emit_code oc "i32.and\n"
   | OR          -> emit_code oc "i32.and\n"
   | RValue x    -> emit_code oc "global.get $%s\n" x
@@ -74,8 +74,10 @@ let emit_instr (oc : out_channel) (ctrl : cframe list ref) (pending_store: strin
          dec_indent ();
          emit_code oc ") ;; block\n";
          dec_indent ())
-     | _ ->
-        raise (Error (Printf.sprintf "LabelOut mismatch for %s/%s" t out))
+     | [] ->
+        raise (Error (Printf.sprintf "WASM code generation error: LabelOut mismatch - attempting to close label '%s/%s' but control stack is empty.\nThis indicates an unmatched LabelOut without a corresponding LabelTest. Check the While loop structure in virtual_stack.ml's compile_statement function." t out))
+     | {test=actual_test; out=actual_out} :: _ ->
+        raise (Error (Printf.sprintf "WASM code generation error: LabelOut mismatch - expected to close label '%s/%s' but found '%s/%s' on control stack.\nThis indicates mismatched loop labels. Verify that LabelTest and LabelOut pairs are correctly generated in virtual_stack.ml." actual_test actual_out t out))
      end
 
 let compile (oc : out_channel) (prog : t list) : unit =

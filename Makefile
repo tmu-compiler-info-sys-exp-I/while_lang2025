@@ -10,12 +10,14 @@ TESTS = assign loop
 # 最終的に生成されるバイナリ名
 RESULT = while_lang
 
+OCAMLFLAGS = -w -a
+
 all: bc # test
 
 day2:
 	ocamllex lexer.mll
 	ocamlyacc parser.mly
-	ocamlc $(SOURCES_DAY2) -o test_day2
+	ocamlc $(OCAMLFLAGS) $(SOURCES_DAY2) -o test_day2
 	./test_day2
 
 test: bc $(TESTS:%=test/%.res)
