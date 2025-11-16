@@ -1,56 +1,48 @@
 open Syntax
+open Visualizer
 
 (* 課題1,2,3 *)
 (* 入力文字列が構文木に変換できるか確かめる*)
 let test_syntax s msg =
-  print_string "[input] ";
-  print_endline s;
+  Printf.printf "\n%sSource:%s %s\n" Visualizer.color_bold Visualizer.color_reset s;
   try
     let l = Lexing.from_string s in
-    let output = Parser.start Lexer.token l
-                 |> Syntax.string_of_statement in
-    print_string "[output] ";
-    output |> print_string; print_newline ()
+    let output = Parser.start Lexer.token l in
+    visualize_statement output
   with e ->
-      print_string "[error] ";
-      print_endline msg;
-      print_newline ();
+    Printf.printf "\n%s[ERROR]%s %s\n"
+      Visualizer.color_red Visualizer.color_reset
+      (Printexc.to_string e);
       raise e
 
 
 (* 課題1,2,3 *)
 (* 入力文字列 (predicate) が構文木に変換できるか確かめる*)
 let test_syntax_predicate p msg =
-  print_string "[input] ";
-  print_endline p;
+  Printf.printf "\n%sSource:%s %s\n" Visualizer.color_bold Visualizer.color_reset p;
   try
     let l = Lexing.from_string p in
-    let output = Parser.predicate Lexer.token l
-                 |> Syntax.string_of_predicate in
-    print_string "[output] ";
-    output |> print_string; print_newline()
+    let output = Parser.predicate Lexer.token l in
+    visualize_predicate output
   with e ->
-      print_string "[error] ";
-      print_endline msg;
-      print_newline ();
-      raise e
+    Printf.printf "\n%s[ERROR]%s %s\n"
+      Visualizer.color_red Visualizer.color_reset
+      (Printexc.to_string e);
+    raise e
 
 (* 課題4 *)
 (* 入力文字列が仮想スタック機械命令列に変換できるか確かめる*)
 let test_stack_ops s msg =
-  print_string "[input] ";
-  print_endline s;
+  Printf.printf "\n%sSource:%s %s\n" Visualizer.color_bold Visualizer.color_reset s;
   try
     let l = Lexing.from_string s in
-    let output = Parser.start Lexer.token l
-                 |> Virtual_stack.compile_stack in
-    print_string "[output] ";
-    Virtual_stack.print_code stdout output;
-    print_newline ()
+    let output = Parser.start Lexer.token l |> Virtual_stack.compile_statement in
+    Printf.printf "\n%s           ↓ Compilation ↓%s\n" Visualizer.color_cyan Visualizer.color_reset;
+    visualize_stack_code output
   with e ->
-      print_string "[error] ";
-      print_endline msg;
-      print_newline ();
+    Printf.printf "\n%s[ERROR]%s %s\n"
+        Visualizer.color_red Visualizer.color_reset
+        (Printexc.to_string e);
       raise e
 
 let () =

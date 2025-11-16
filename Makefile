@@ -2,7 +2,8 @@
 SOURCES = syntax.ml parser.mly lexer.mll virtual_stack.ml \
 	emit_wasm.ml main.ml
 
-SOURCES_DAY2 = syntax.ml parser.mli parser.ml lexer.ml virtual_stack.ml test_day2.ml
+SOURCES_DAY2 = syntax.ml parser.mli parser.ml lexer.ml virtual_stack.ml visualizer.ml test_day2.ml
+
 
 # テストを追加したらテストの名前 (拡張子をは取る) を TESTS に足す
 TESTS = assign loop
