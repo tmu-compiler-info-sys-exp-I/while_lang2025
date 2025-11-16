@@ -2,10 +2,7 @@
 SOURCES = syntax.ml error.ml parser.mly lexer.mll virtual_stack.ml \
 	emit_wasm.ml visualizer.ml main.ml
 
-SOURCES_DAY2 = syntax.ml parser.mli parser.ml lexer.ml virtual_stack.ml visualizer.ml test_day2.ml
-
-SOURCES_ERROR_VIZ = syntax.ml parser.mli parser.ml lexer.ml virtual_stack.ml visualizer.ml test_error_viz.ml
-
+SOURCES_DAY2 = syntax.ml error.ml parser.mli parser.ml lexer.ml virtual_stack.ml visualizer.ml test_day2.ml
 
 # テストを追加したらテストの名前 (拡張子をは取る) を TESTS に足す
 TESTS = assign loop
@@ -21,12 +18,6 @@ day2:
 	ocamlyacc parser.mly
 	ocamlc $(OCAMLFLAGS) $(SOURCES_DAY2) -o test_day2
 	./test_day2
-
-error_viz:
-	ocamllex lexer.mll
-	ocamlyacc parser.mly
-	ocamlc $(OCAMLFLAGS) $(SOURCES_ERROR_VIZ) -o test_error_viz
-	./test_error_viz
 
 test: bc $(TESTS:%=test/%.res)
 
