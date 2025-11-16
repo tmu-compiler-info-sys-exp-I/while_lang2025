@@ -1,6 +1,7 @@
 %{
   (* 利用するモジュールを宣言。今回は Syntax を使用する *)
-  open Syntax
+    open Syntax
+    open Error
 %}
 
 /* トークン (字句) の宣言。 lexer.mll でマッピングを行う */
@@ -42,10 +43,8 @@
 start:
 | statements EOF { $1 }
 | error
-    { failwith
-        (Printf.sprintf "Syntax error: unexpected input at characters %d-%d.\nPlease check your While language syntax (statements should end with ';', expressions should use proper keywords like 'while', 'do', 'if', 'then', 'else', 'skip', 'print', etc.)"
-           (Parsing.symbol_start ())
-           (Parsing.symbol_end ())) }
+    { visualize_parse_error (Parsing.symbol_start ()) (Parsing.symbol_end ());
+      failwith "Parse error" }
 
 /* statement (文) をパースするための記号 */
 statement:

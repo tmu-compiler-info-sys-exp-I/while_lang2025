@@ -9,6 +9,7 @@ let print_stack_code l =
        (Parser.start Lexer.token l))
 
 let string name s =
+  Error.set_source s;
   let oc = open_out name in
   assemble "test.while" oc (Lexing.from_string s);
   close_out oc
@@ -26,8 +27,13 @@ let main filename =
   let name = remove_suffix filename ".while" in
   let outname = name ^ ".wat" in
   let ic = open_in filename in
+  (* Read entire file for error visualization *)
+  let source = really_input_string ic (in_channel_length ic) in
+  close_in ic;
+  Error.set_source source;
+  (* Now parse *)
   let oc = open_out outname in
-  let l = Lexing.from_channel ic in
+  let l = Lexing.from_string source in
   assemble name oc l;
   print_endline ("compilation succeeded. wrote to " ^ outname);
   close_out oc
