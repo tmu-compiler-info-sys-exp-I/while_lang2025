@@ -69,3 +69,15 @@ let visualize_parse_error start_pos end_pos =
     color_red color_reset;
   Printf.eprintf "%s(statements should end with ';', use keywords: while, do, if, then, else, skip, print)%s\n\n"
     color_red color_reset
+
+(* Helper function to print While statement errors *)
+let print_while_error msg =
+  Printf.eprintf "%s[While Error]%s %s\n" color_red color_reset msg;
+  Printf.eprintf "%sExpected format: while <predicate> do <statement> end;%s\n"
+    color_cyan color_reset
+
+(* Helper function to print Seq statement errors *)
+let print_seq_error msg =
+  Printf.eprintf "%s[Seq Error]%s %s\n" color_red color_reset msg;
+  Printf.eprintf "%sExpected format: <statement>; <statement>;%s\n"
+    color_cyan color_reset

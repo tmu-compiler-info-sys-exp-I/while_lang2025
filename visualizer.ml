@@ -38,6 +38,24 @@ let rec visualize_arith ?(prefix="") ?(is_last=true) (a : a) =
       printf "%s%s%sAdd%s\n" prefix connector color_green color_reset;
       visualize_arith ~prefix:new_prefix ~is_last:false a1;
       visualize_arith ~prefix:new_prefix ~is_last:true a2
+(*
+  | Sub (a1, a2) ->
+    printf "%s%s%sSub%s\n" prefix connector color_green color_reset;
+    visualize_arith ~prefix:new_prefix ~is_last:false a1;
+    visualize_arith ~prefix:new_prefix ~is_last:true a2
+*)
+(*
+  | Mul (a1, a2) ->
+    printf "%s%s%sMul%s\n" prefix connector color_green color_reset;
+    visualize_arith ~prefix:new_prefix ~is_last:false a1;
+    visualize_arith ~prefix:new_prefix ~is_last:true a2
+*)
+(*
+  | Div (a1, a2) ->
+    printf "%s%s%sDiv%s\n" prefix connector color_green color_reset;
+    visualize_arith ~prefix:new_prefix ~is_last:false a1;
+    visualize_arith ~prefix:new_prefix ~is_last:true a2
+*)
 
 (* AST Visualizer - Pretty print predicates *)
 let rec visualize_predicate ?(prefix="") ?(is_last=true) (p : p) =
@@ -68,6 +86,20 @@ let rec visualize_predicate ?(prefix="") ?(is_last=true) (p : p) =
       printf "%s%s%sGT (>)%s\n" prefix connector color_blue color_reset;
       visualize_arith ~prefix:new_prefix ~is_last:false a1;
       visualize_arith ~prefix:new_prefix ~is_last:true a2
+(*
+  | EQ (a1, a2) ->
+      printf "%s%s%sEQ (==)%s\n" prefix connector color_blue color_reset;
+      visualize_arith ~prefix:new_prefix ~is_last:false a1;
+      visualize_arith ~prefix:new_prefix ~is_last:true a2
+  | LE (a1, a2) ->
+      printf "%s%s%sLE (<=)%s\n" prefix connector color_blue color_reset;
+      visualize_arith ~prefix:new_prefix ~is_last:false a1;
+      visualize_arith ~prefix:new_prefix ~is_last:true a2
+  | GE (a1, a2) ->
+      printf "%s%s%sLE (>=)%s\n" prefix connector color_blue color_reset;
+      visualize_arith ~prefix:new_prefix ~is_last:false a1;
+      visualize_arith ~prefix:new_prefix ~is_last:true a2
+ *)
 
 (* AST Visualizer - Pretty print statements *)
 let rec visualize_statement ?(prefix="") ?(is_last=true) (s : s) =
@@ -84,6 +116,16 @@ let rec visualize_statement ?(prefix="") ?(is_last=true) (s : s) =
   | Print a ->
       printf "%s%s%sPrint%s\n" prefix connector color_bold color_reset;
       visualize_arith ~prefix:new_prefix ~is_last:true a
+  | While (p, body) ->
+      printf "%s%s%sWhile%s\n" prefix connector color_bold color_reset;
+      printf "%s%s%sCondition%s\n" new_prefix box_vr color_cyan color_reset;
+      visualize_predicate ~prefix:(new_prefix ^ box_v) ~is_last:true p;
+      printf "%s%s%sBody%s\n" new_prefix box_vl color_cyan color_reset;
+      visualize_statement ~prefix:(new_prefix ^ box_sp) ~is_last:true body
+  | Seq (s1, s2) ->
+      printf "%s%s%sSeq%s\n" prefix connector color_bold color_reset;
+      visualize_statement ~prefix:new_prefix ~is_last:false s1;
+      visualize_statement ~prefix:new_prefix ~is_last:true s2
 
 (* Virtual Stack Visualizer - Pretty print stack instructions with line numbers *)
 let visualize_stack_instruction idx instr =
