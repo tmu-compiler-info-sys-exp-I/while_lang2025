@@ -116,6 +116,7 @@ let rec visualize_statement ?(prefix="") ?(is_last=true) (s : s) =
   | Print a ->
       printf "%s%s%sPrint%s\n" prefix connector color_bold color_reset;
       visualize_arith ~prefix:new_prefix ~is_last:true a
+(*
   | While (p, body) ->
       printf "%s%s%sWhile%s\n" prefix connector color_bold color_reset;
       printf "%s%s%sCondition%s\n" new_prefix box_vr color_cyan color_reset;
@@ -126,6 +127,7 @@ let rec visualize_statement ?(prefix="") ?(is_last=true) (s : s) =
       printf "%s%s%sSeq%s\n" prefix connector color_bold color_reset;
       visualize_statement ~prefix:new_prefix ~is_last:false s1;
       visualize_statement ~prefix:new_prefix ~is_last:true s2
+ *)
 
 (* Virtual Stack Visualizer - Pretty print stack instructions with line numbers *)
 let visualize_stack_instruction idx instr =
