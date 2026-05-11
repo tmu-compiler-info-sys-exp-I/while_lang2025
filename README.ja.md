@@ -1,4 +1,4 @@
-# while_lang2025
+# while_lang_base
 
 WHILE 言語から WebAssembly Text Format (.wat) へのコンパイラです。東京都立大学のコンパイラ構成論の教材として開発されています。
 

@@ -1,4 +1,4 @@
-# while_lang2025
+# while_lang_base
 
 A compiler from the WHILE language to WebAssembly Text Format (.wat). Educational material for the compiler construction course at Tokyo Metropolitan University.
 
